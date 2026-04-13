@@ -31,7 +31,7 @@ def draw_field(snake, food, score):
 
 def main():
     snake = deque([(WIDTH//2, HEIGHT//2)])
-    direction = (1, 0)      # начинаем движение вправо
+    direction = (1, 0)      
     score = 0
     
     food = (random.randint(2, WIDTH-3), random.randint(2, HEIGHT-3))
@@ -40,14 +40,13 @@ def main():
     
     while True:
         draw_field(snake, food, score)
-        
-        # === НЕБЛОКИРУЮЩЕЕ чтение клавиш ===
+                
         try:
             import msvcrt
-            if msvcrt.kbhit():                      # если нажата клавиша
+            if msvcrt.kbhit():                      
                 key = msvcrt.getch()
                 
-                if key == b'\xe0':                  # стрелки
+                if key == b'\xe0':                  
                     key = msvcrt.getch()
                     if key == b'H': new_dir = (0, -1)
                     elif key == b'P': new_dir = (0, 1)
@@ -59,19 +58,17 @@ def main():
                     dirs = {'w': (0, -1), 's': (0, 1), 'a': (-1, 0), 'd': (1, 0)}
                     new_dir = dirs.get(k, direction)
                 
-                # запрещаем разворот на 180°
+                
                 if (new_dir[0] != -direction[0] or new_dir[1] != -direction[1]):
                     direction = new_dir
                     
         except:
-            pass   # на других системах просто продолжаем
-        
-        # Двигаем змейку
+            pass   
+                
         head_x = snake[0][0] + direction[0]
         head_y = snake[0][1] + direction[1]
         new_head = (head_x, head_y)
-        
-        # Проверка столкновений
+                
         if (head_x < 0 or head_x >= WIDTH or 
             head_y < 0 or head_y >= HEIGHT or 
             new_head in snake):
@@ -79,8 +76,7 @@ def main():
             break
         
         snake.appendleft(new_head)
-        
-        # Съели еду
+                
         if new_head == food:
             score += 10
             while True:
